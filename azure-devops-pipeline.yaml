@@ -9,11 +9,16 @@ steps:
   submodules: true
 
 - script: |
-    sudo apt-get update
-    sudo apt-get install -y ruby-full
-    sudo apt-get install -y nodejs
-    sudo apt-get install -y yarn
+    sudo apt-get update -y
+    sudo apt-get install -y ruby-full build-essential
+    ruby -v
     gem install bundler
+    bundler -v
+    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    node -v
+    sudo npm install -g yarn
+    yarn -v
   displayName: 'Install Ruby, Node.js, Yarn, and Bundler'
 
 - script: |
@@ -31,4 +36,5 @@ steps:
 - script: |
     docker-compose -f docker-compose.production.yaml build
   displayName: 'Build Docker images'
+
 
