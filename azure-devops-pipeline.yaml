@@ -13,11 +13,12 @@ steps:
     sudo apt-get install -y ruby-full build-essential
     ruby -v
     gem install bundler
-    bundler -v
+    gem exec bundle -v
+    # Use Node.js 20.x instead of 14.x
     curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
     sudo apt-get install -y nodejs
     node -v
-    sudo npm install -g yarn
+    npm install -g yarn
     yarn -v
   displayName: 'Install Ruby, Node.js, Yarn, and Bundler'
 
