@@ -9,10 +9,19 @@ steps:
   submodules: true
 
 - script: |
+    sudo apt-get update
+    sudo apt-get install -y ruby-full
+    sudo apt-get install -y nodejs
+    sudo apt-get install -y yarn
+    gem install bundler
+  displayName: 'Install Ruby, Node.js, Yarn, and Bundler'
+
+- script: |
     git clone https://github.com/chatwoot/chatwoot.git
     cd chatwoot
-    make burn
-  displayName: 'Install dependencies'
+    bundle install
+    yarn install
+  displayName: 'Clone repository and install dependencies'
 
 - script: |
     cp .env.example .env
@@ -20,22 +29,6 @@ steps:
   displayName: 'Setup Environment Variables'
 
 - script: |
-    docker-compose -f docker-compose.production.yaml up --build -d
-  displayName: 'Build and start Chatwoot services'
-
-- script: |
-    docker-compose exec server bundle exec rails db:prepare
-  displayName: 'Prepare database'
-
-- script: |
-    docker-compose down
-  displayName: 'Stop services'
-
-- script: |
-    docker-compose build
+    docker-compose -f docker-compose.production.yaml build
   displayName: 'Build Docker images'
 
-- script: |
-    # Commands to push the Docker images to a registry
-    # e.g., docker push <your-registry>/chatwoot:$(Build.BuildId)
-  displayName: 'Push Docker images to registry'
